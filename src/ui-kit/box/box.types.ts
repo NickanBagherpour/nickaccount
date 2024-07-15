@@ -2,6 +2,19 @@ import { CSSProperties, HTMLAttributes, ReactNode } from 'react';
 
 export type SpacingValue = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 
+export type SpacingStyleKey = 
+  | 'padding' | 'paddingTop' | 'paddingRight' | 'paddingBottom' | 'paddingLeft' | 'paddingX' | 'paddingY'
+  | 'margin' | 'marginTop' | 'marginRight' | 'marginBottom' | 'marginLeft' | 'marginX' | 'marginY';
+
+export type SpacingStyleValue = {
+  none: string;
+  xs: string;
+  sm: string;
+  md: string;
+  lg: string;
+  xl: string;
+};
+
 export interface SpacingProps {
   top?: SpacingValue;
   right?: SpacingValue;
@@ -16,6 +29,7 @@ export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
   padding?: SpacingValue | SpacingProps;
   margin?: SpacingValue | SpacingProps;
   display?: CSSProperties['display'];
+  flexDirection?: CSSProperties['flexDirection'];
   justifyContent?: CSSProperties['justifyContent'];
   alignItems?: CSSProperties['alignItems'];
   bordered?: boolean;

@@ -1,3 +1,6 @@
+
+import { SpacingStyleKey, SpacingStyleValue, SpacingValue } from './box.types';
+
 export const boxStyles = {
   base: 'transition-all duration-300',
   padding: {
@@ -112,30 +115,6 @@ export const boxStyles = {
     lg: 'ml-6',
     xl: 'ml-8',
   },
-  display: {
-    block: 'block',
-    inline: 'inline',
-    'inline-block': 'inline-block',
-    flex: 'flex',
-    'inline-flex': 'inline-flex',
-    grid: 'grid',
-    none: 'hidden',
-  },
-  justifyContent: {
-    start: 'justify-start',
-    end: 'justify-end',
-    center: 'justify-center',
-    between: 'justify-between',
-    around: 'justify-around',
-    evenly: 'justify-evenly',
-  },
-  alignItems: {
-    start: 'items-start',
-    end: 'items-end',
-    center: 'items-center',
-    baseline: 'items-baseline',
-    stretch: 'items-stretch',
-  },
   bordered: 'border border-gray-200 dark:border-gray-700',
   rounded: 'rounded-md',
   shadow: {
@@ -158,4 +137,13 @@ export const boxStyles = {
     full: 'h-full',
     screen: 'h-screen',
   },
+};
+
+export const getSpacingClass = (
+  type: 'padding' | 'margin',
+  direction: 'top' | 'right' | 'bottom' | 'left' | 'x' | 'y',
+  value: SpacingValue
+): string => {
+  const key = `${type}${direction.charAt(0).toUpperCase() + direction.slice(1)}` as SpacingStyleKey;
+  return (boxStyles[key] as SpacingStyleValue)[value];
 };
