@@ -14,4 +14,8 @@ export type { BoxProps } from './box/box.types';
 export { Input } from './input/input';
 export type { InputProps } from './input/input.types';
 
+// Modal
+export { Modal } from './modal/modal';
+export type { ModalProps } from './modal/modal.types';
+
 export { default as Dropdown } from './dropdown/dropdown';
