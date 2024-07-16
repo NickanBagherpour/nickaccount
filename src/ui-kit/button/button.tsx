@@ -12,6 +12,8 @@ export const Button: React.FC<ButtonProps> = ({
   icon,
   loading = false,
   className = '',
+  onClick,
+  type = 'button',
   ...props
 }) => {
   const isDisabled = loading || props.disabled;
@@ -33,8 +35,26 @@ export const Button: React.FC<ButtonProps> = ({
     className,
   );
 
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (type !== 'submit') {
+      event.preventDefault();
+    }
+    if (onClick && !isDisabled) {
+      onClick(event);
+    }
+  };
+
+  // Remove potentially problematic props
+  // const { href, target, rel, ...safeProps } = props;
+
   return (
-    <button className={classes} disabled={isDisabled} {...props}>
+    <button 
+      className={classes} 
+      disabled={isDisabled} 
+      onClick={handleClick}
+      type={type}
+      {...props}
+    >
       {loading && (
         <span className='absolute inset-0 flex items-center justify-center'>
           <svg className='animate-spin h-5 w-5' viewBox='0 0 24 24'>
@@ -50,4 +70,4 @@ export const Button: React.FC<ButtonProps> = ({
       </span>
     </button>
   );
-};
+}

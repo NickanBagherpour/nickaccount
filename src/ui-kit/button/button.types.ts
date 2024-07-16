@@ -1,11 +1,11 @@
-import { ButtonHTMLAttributes, ReactNode } from 'react';
+import { ReactNode, MouseEvent, ButtonHTMLAttributes } from 'react';
 
-export type ButtonColor = 'primary' | 'secondary' | 'danger' | 'success';
-
-export interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
+  children: ReactNode;
   variant?: 'contained' | 'outlined' | 'text' | 'link' | 'tuna';
-  color?: ButtonColor;
+  color?: 'primary' | 'secondary' | 'danger' | 'success';
   size?: 'small' | 'medium' | 'large';
   icon?: ReactNode;
   loading?: boolean;
+  className?: string;
 }
