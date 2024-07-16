@@ -1,7 +1,9 @@
+// input.styles.ts
+
 import { InputSize, InputVariant } from './input.types';
 
 export const inputStyles = {
-  base: 'w-full transition-all duration-200 ease-in-out',
+  base: 'w-full transition-all duration-200 ease-in-out bg-gray-800 text-white',
   size: {
     small: 'px-2 py-1 text-sm',
     medium: 'px-3 py-2',
@@ -9,11 +11,11 @@ export const inputStyles = {
   },
   variant: {
     outlined: 'border rounded-md focus:ring-2 focus:ring-opacity-50',
-    filled: 'bg-gray-100 border-b-2 focus:bg-transparent',
+    filled: 'bg-gray-700 border-b-2 focus:bg-gray-600',
     standard: 'border-b-2',
   },
   state: {
-    normal: 'border-gray-300 focus:border-blue-500 focus:ring-blue-500',
+    normal: 'border-gray-600 focus:border-blue-500 focus:ring-blue-500',
     error: 'border-red-500 focus:border-red-500 focus:ring-red-500',
   },
   label: {
@@ -24,19 +26,19 @@ export const inputStyles = {
       large: 'text-lg',
     },
     state: {
-      normal: 'text-gray-700',
-      error: 'text-red-500',
+      normal: 'text-gray-300',
+      error: 'text-red-400',
     },
   },
   helperText: {
     base: 'mt-1 text-sm',
     state: {
-      normal: 'text-gray-600',
-      error: 'text-red-500',
+      normal: 'text-gray-400',
+      error: 'text-red-400',
     },
   },
   adornment: {
-    base: 'absolute top-1/2 transform -translate-y-1/2',
+    base: 'absolute top-1/2 transform -translate-y-1/2 text-gray-400',
     start: 'left-3',
     end: 'right-3',
   },

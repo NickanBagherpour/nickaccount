@@ -22,4 +22,9 @@ export type { ModalProps } from './modal/modal.types';
 export { Selector } from './selector/selector';
 export type { SelectorProps } from './selector/selector.types';
 
+// Tab
+export { Tab } from './tab/tab';
+export type { TabProps } from './tab/tab.types';
+
+
 export { default as Dropdown } from './dropdown/dropdown';

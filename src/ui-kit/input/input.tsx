@@ -16,7 +16,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
       className = '',
       ...props
     },
-    ref
+    ref,
   ) => {
     const hasError = !!error;
     const inputClasses = getInputStyles(size, variant, hasError, fullWidth);
@@ -25,32 +25,30 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
 
     return (
       <div className={`relative ${fullWidth ? 'w-full' : ''}`}>
-        {label && <label className={labelClasses}>{label}</label>}
-        <div className="relative">
+        {label && (
+          <label htmlFor={props?.id ?? props?.name} className={`${labelClasses} dark:text-gray-300`}>
+            {label}
+          </label>
+        )}
+        <div className='relative'>
           {startAdornment && (
-            <span className={`${inputStyles.adornment.base} ${inputStyles.adornment.start}`}>
-              {startAdornment}
-            </span>
+            <span className={`${inputStyles.adornment.base} ${inputStyles.adornment.start}`}>{startAdornment}</span>
           )}
           <input
             ref={ref}
             className={`${inputClasses} ${className} ${
               startAdornment ? 'pl-10' : ''
-            } ${endAdornment ? 'pr-10' : ''}`}
+            } ${endAdornment ? 'pr-10' : ''} dark:bg-gray-800 dark:text-white dark:border-gray-600`}
             {...props}
           />
           {endAdornment && (
-            <span className={`${inputStyles.adornment.base} ${inputStyles.adornment.end}`}>
-              {endAdornment}
-            </span>
+            <span className={`${inputStyles.adornment.base} ${inputStyles.adornment.end}`}>{endAdornment}</span>
           )}
         </div>
-        {(helperText || error) && (
-          <p className={helperTextClasses}>{error || helperText}</p>
-        )}
+        {(helperText || error) && <p className={`${helperTextClasses} dark:text-gray-400`}>{error || helperText}</p>}
       </div>
     );
-  }
+  },
 );
 
 Input.displayName = 'Input';
