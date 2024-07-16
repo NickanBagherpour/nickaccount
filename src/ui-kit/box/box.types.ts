@@ -1,6 +1,5 @@
-import { CSSProperties, HTMLAttributes, ReactNode } from 'react';
-
-export type SpacingValue = 'none' | 'xs' | 'sm' | 'md' | 'lg' | 'xl';
+import { CSSProperties, ElementType, HTMLAttributes, ReactNode } from 'react';
+import { SpacingValue } from '../types';
 
 export type SpacingStyleKey = 
   | 'padding' | 'paddingTop' | 'paddingRight' | 'paddingBottom' | 'paddingLeft' | 'paddingX' | 'paddingY'
@@ -26,6 +25,7 @@ export interface SpacingProps {
 
 export interface BoxProps extends HTMLAttributes<HTMLDivElement> {
   children?: ReactNode;
+  as?: ElementType;
   padding?: SpacingValue | SpacingProps;
   margin?: SpacingValue | SpacingProps;
   display?: CSSProperties['display'];

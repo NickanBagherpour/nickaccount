@@ -1,10 +1,12 @@
 export const cardStyles = {
   base: 'flex rounded-lg overflow-hidden transition-all duration-300 ease-in-out',
   padding: {
-    none: '',
-    small: 'p-2',
-    medium: 'p-4',
-    large: 'p-6',
+    none: 'p-0',
+    xs: 'p-1',
+    sm: 'p-2',
+    md: 'p-4',
+    lg: 'p-6',
+    xl: 'p-8',
   },
   bordered: 'border',
   elevated: 'shadow-md',

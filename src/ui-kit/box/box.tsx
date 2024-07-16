@@ -2,11 +2,13 @@ import React from 'react';
 
 import { classNames } from '@/utils/class-names';
 
-import { BoxProps, SpacingProps, SpacingValue } from './box.types';
+import { BoxProps, SpacingProps } from './box.types';
 import { boxStyles, getSpacingClass } from './box.styles';
+import { SpacingValue } from '../types';
 
 export const Box: React.FC<BoxProps> = ({ 
   children,
+  as: Component = 'div',
   padding = 'none',
   margin = 'none',
   display,
@@ -59,8 +61,8 @@ export const Box: React.FC<BoxProps> = ({
   };
 
   return (
-    <div className={classes} style={boxStyle} {...props}>
+    <Component className={classes} style={boxStyle} {...props}>
       {children}
-    </div>
+    </Component>
   );
-};
+}

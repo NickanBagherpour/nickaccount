@@ -6,7 +6,7 @@ import { cardStyles } from './card.styles';
 
 export const Card: React.FC<CardProps> = ({ 
   children, 
-  padding = 'medium', 
+  padding = 'md', 
   bordered = false,
   elevated = false,
   hoverable = false,
