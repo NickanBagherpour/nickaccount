@@ -1,6 +1,6 @@
 // Button
 export { Button } from './button/button';
-export type { ButtonProps, ButtonColor } from './button/button.types';
+export type { ButtonProps } from './button/button.types';
 
 // Card
 export { Card } from './card/card';
@@ -17,5 +17,9 @@ export type { InputProps } from './input/input.types';
 // Modal
 export { Modal } from './modal/modal';
 export type { ModalProps } from './modal/modal.types';
+
+// Selector
+export { Selector } from './selector/selector';
+export type { SelectorProps } from './selector/selector.types';
 
 export { default as Dropdown } from './dropdown/dropdown';
