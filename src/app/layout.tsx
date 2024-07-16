@@ -14,8 +14,11 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+
+  const  isDarkMode  = true; // @TODO: Add dark mode toggle
+ 
   return (
-    <html lang="en">
+    <html lang="en" className={isDarkMode ? 'dark' : ''}>
       <body className={inter.className}>{children}</body>
     </html>
   );
