@@ -6,6 +6,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   (
     {
       label,
+      id,
       helperText,
       error,
       size = 'medium',
@@ -26,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <div className={`relative ${fullWidth ? 'w-full' : ''}`}>
         {label && (
-          <label htmlFor={props?.id ?? props?.name} className={`${labelClasses} dark:text-gray-300`}>
+          <label htmlFor={id ?? props?.name} className={`${labelClasses} dark:text-gray-300`}>
             {label}
           </label>
         )}
@@ -36,6 +37,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
           )}
           <input
             ref={ref}
+            id={id ?? props?.name}
             className={`${inputClasses} ${className} ${
               startAdornment ? 'pl-10' : ''
             } ${endAdornment ? 'pr-10' : ''} dark:bg-gray-800 dark:text-white dark:border-gray-600`}
