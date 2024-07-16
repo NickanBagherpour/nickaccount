@@ -15,6 +15,8 @@ export const buttonVariantStyles = {
   tuna: 'bg-opacity-20 border',
 };
 
+export const buttonFullWidthStyles = 'w-full';
+
 export const buttonColorStyles = {
   primary: {
     contained: 'bg-blue-600 hover:bg-blue-700 dark:text-white focus:ring-blue-500',

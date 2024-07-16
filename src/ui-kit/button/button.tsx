@@ -14,6 +14,7 @@ export const Button: React.FC<ButtonProps> = ({
   className = '',
   onClick,
   type = 'button',
+  fullWidth = false,
   ...props
 }) => {
   const isDisabled = loading || props.disabled;
@@ -23,6 +24,7 @@ export const Button: React.FC<ButtonProps> = ({
   const variantClasses = S.buttonVariantStyles[variant];
   const colorClasses = S.buttonColorStyles[color][variant];
   const disabledClasses = isDisabled ? S.buttonDisabledStyles[variant] : '';
+  const fullWidthClasses = fullWidth ? S.buttonFullWidthStyles : ''; 
 
   const consistentHeightClasses = 'relative inline-flex items-center justify-center';
   const classes = classNames(
@@ -32,6 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
     !isDisabled && colorClasses,
     disabledClasses,
     consistentHeightClasses,
+    fullWidthClasses,
     className,
   );
 
