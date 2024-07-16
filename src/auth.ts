@@ -1,10 +1,10 @@
 import NextAuth from 'next-auth';
+
+import Github from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 import bcrypt from 'bcryptjs';
 
 import { db } from '@/db';
-import { saltAndHashPassword } from '@/utils/helper';
-import { User as IUser } from '@/types/user.type';
 
 export const {
   handlers: { GET, POST },
@@ -14,6 +14,10 @@ export const {
 } = NextAuth({
   session: { strategy: 'jwt' },
   providers: [
+    Github({
+      clientId: process.env.AUTH_GITHUB_ID,
+      clientSecret: process.env.AUTH_GITHUB_SECRET,
+    }),
     Credentials({
       name: 'Credentials',
       credentials: {
@@ -32,27 +36,18 @@ export const {
         const email = credentials.email as string;
         const password = credentials.password as string;
 
-        const hash = saltAndHashPassword(password);
-
-        await db.read(); // Ensure the database is read before accessing
-        const existingUser = db.data?.users.find((user) => user.email === email) as IUser;
+        await db.read();
+        const existingUser = db.data?.users.find((user) => user.email === email);
 
         if (existingUser) {
           const isMatch = bcrypt.compareSync(password, existingUser.hashedPassword);
           if (!isMatch) {
             throw new Error('Incorrect password.');
           }
+          console.log('existingUser', existingUser);
           return existingUser;
         } else {
-          const newUser: IUser = {
-            id: (db.data!.users.length + 1).toString(),
-            email,
-            hashedPassword: hash,
-          };
-
-          db.data!.users.push(newUser);
-          await db.write();
-          return newUser;
+          throw new Error('User not found.');
         }
       },
     }),

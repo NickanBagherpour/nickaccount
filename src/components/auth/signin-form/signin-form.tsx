@@ -2,27 +2,28 @@ import React from 'react';
 import { FaGithub } from 'react-icons/fa';
 
 import { Input, Button } from '@/ui-kit';
+import { signInAction, signInWithCreds } from '@/actions/auth.action';
 
 export const SignInForm: React.FC = () => {
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Handle form submission
+
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const result = await signInWithCreds(formData);
+    if (result.error) {
+      // Handle error (e.g., show error message)
+    } else {
+      // Handle successful sign-in (e.g., redirect to dashboard)
+    }
   };
 
   const handleGithubSignIn = () => {
-    // Implement GitHub sign-in logic here
-    console.log('Sign in with GitHub');
+    signInAction('github');
   };
 
   return (
     <div className='space-y-6'>
-      <Button
-        onClick={handleGithubSignIn}
-        fullWidth
-        variant="outlined"
-        color="secondary"
-        icon={<FaGithub />}
-      >
+      <Button onClick={handleGithubSignIn} fullWidth variant='outlined' color='secondary' icon={<FaGithub />}>
         Sign in with GitHub
       </Button>
       <div className='relative'>
@@ -34,8 +35,7 @@ export const SignInForm: React.FC = () => {
         </div>
       </div>
       <form onSubmit={handleSubmit} className='space-y-6'>
-        <Input label='Email address' type='email' id='email' name='email' autoComplete='email' required fullWidth 
-        error='Please enter your email address.' />
+        <Input label='Email address' type='email' id='email' name='email' autoComplete='email' required fullWidth />
         <Input
           label='Password'
           type='password'
@@ -44,7 +44,6 @@ export const SignInForm: React.FC = () => {
           autoComplete='current-password'
           required
           fullWidth
-          helperText='Your password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one number, and one special character.'
         />
         <Button type='submit' fullWidth>
           Sign in

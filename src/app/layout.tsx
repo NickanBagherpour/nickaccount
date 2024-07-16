@@ -1,25 +1,33 @@
-import type { Metadata } from "next";
-import { Inter } from "next/font/google";
-import "../styles/globals.css";
+import type { Metadata } from 'next';
 
-const inter = Inter({ subsets: ["latin"] });
+import { SessionProvider } from 'next-auth/react';
+import { Inter } from 'next/font/google';
+
+import { auth } from '@/auth';
+import { APP_NAME } from '@/constants/config';
+
+import '../styles/globals.css';
+
+const inter = Inter({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: "NickAccount App",
-  description: "Making the world a better place through constructing elegant hierarchies.",
+  title: APP_NAME,
+  description: 'Making the world a better place through constructing elegant hierarchies.',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isDarkMode = true; // @TODO: read from config
+  const session = await auth();
 
-  const  isDarkMode  = true; // @TODO: Add dark mode toggle
- 
   return (
-    <html lang="en" className={isDarkMode ? 'dark' : ''}>
-      <body className={inter.className}>{children}</body>
-    </html>
+    <SessionProvider session={session}>
+      <html lang='en' className={isDarkMode ? 'dark' : ''}>
+        <body className={inter.className}>{children}</body>
+      </html>
+    </SessionProvider>
   );
 }

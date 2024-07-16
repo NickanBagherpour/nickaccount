@@ -3,10 +3,14 @@
 import React, { useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
+
+import { useSession } from 'next-auth/react';
+import { FiSun, FiMoon, FiCloud, FiMenu, FiX, FiGlobe } from 'react-icons/fi';
+
+import { signOutAction } from '@/actions/auth.action';
 import { Button, Selector } from '@/ui-kit';
 import { ROUTES } from '@/constants/routes';
 import { APP_NAME } from '@/constants/config';
-import { FiSun, FiMoon, FiCloud, FiMenu, FiX, FiGlobe } from 'react-icons/fi';
 
 // Navigation items
 const navItems = [
@@ -33,12 +37,30 @@ export default function Header() {
   const [currentLang, setCurrentLang] = useState('en');
   const [currentTheme, setCurrentTheme] = useState('light');
   const router = useRouter();
-  const isAuthenticated = false; // Replace with your auth logic
+  const { data: session, status } = useSession();
+
+  const isAuthenticated = status === 'authenticated';
+
+  console.log('session', session);
 
   // Handle Sign In button click
   function handleSignIn() {
     router.push(ROUTES.AUTH);
   }
+
+ // Handle Sign Out button click
+  async function handleSignOut() {
+    const result = await signOutAction();
+    
+    if (result.success) {
+      router.push(ROUTES.HOME);
+      router.refresh(); // Force a refresh of the current page
+    } else {
+      console.error("Failed to sign out:", result.error);
+      // Optionally, show an error message to the user
+    }
+  }
+
 
   // Get the current theme icon
   const ThemeIcon = themes.find((theme) => theme.value === currentTheme)?.icon || FiSun;
@@ -86,9 +108,15 @@ export default function Header() {
               icon={<ThemeIcon />}
               placeholder='Select Theme'
             />
-            <Button variant='contained' color='primary' size='small' onClick={handleSignIn}>
-              Sign In
-            </Button>
+            {isAuthenticated ? (
+              <Button variant='contained' color='danger' size='small' onClick={handleSignOut}>
+                Sign Out
+              </Button>
+            ) : (
+              <Button variant='contained' color='success' size='small' onClick={handleSignIn}>
+                Sign In
+              </Button>
+            )}
           </div>
 
           {/* Mobile Menu Button */}
