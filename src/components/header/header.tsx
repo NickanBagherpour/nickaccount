@@ -7,15 +7,13 @@ import { Button } from '@/ui-kit';
 import { ROUTES } from '@/constants/routes';
 
 export default function Header() {
-  
-    function handleSignIn() {
+  function handleSignIn() {
     throw new Error('Function not implemented.');
   }
 
   function handleSignUp() {
     throw new Error('Function not implemented.');
   }
-
 
   return (
     <header className='bg-white dark:bg-gray-800 shadow'>
@@ -26,17 +24,14 @@ export default function Header() {
           </Link>
 
           <div>
-
             <Button variant='contained' color='primary' className='mr-2' onClick={handleSignIn} loading={false}>
               Sign In
             </Button>
 
-            <Button variant='contained' color='success'  onClick={handleSignUp} loading={false}>
+            <Button variant='contained' color='success' onClick={handleSignUp} loading={false}>
               Sign Up
             </Button>
-
           </div>
-
         </div>
       </nav>
     </header>

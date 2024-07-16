@@ -2,8 +2,7 @@ import React from 'react';
 import { mockReports } from '@/mocks';
 
 export default function Report1Page() {
-  const report = mockReports[0];
-
+  const report = mockReports[0]; 
   return (
     <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
       <h1 className="text-3xl font-semibold text-gray-800 dark:text-white mb-4">{report.title}</h1>
