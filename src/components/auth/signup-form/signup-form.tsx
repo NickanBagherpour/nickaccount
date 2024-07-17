@@ -2,25 +2,29 @@ import React from 'react';
 import { useFormStatus } from 'react-dom';
 
 import { Input,Button } from '@/ui-kit';
-import { signUpWithCreds } from '@/actions/auth.action';
+import { signUpWithCredsAction } from '@/actions/auth.action';
 
 export const SignUpForm: React.FC = () => {
 
   const { pending } = useFormStatus();
   
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const result = await signUpWithCreds(formData);
-    if (result.error) {
-      // Handle error (e.g., show error message)
-    } else {
-      // Handle successful sign-up (e.g., show success message, redirect)
-    }
-  };
+  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+  //   event.preventDefault();
+
+  //   console.log('event', event);
+
+  //   const formData = new FormData(event.currentTarget);
+  //   const result = await signUpWithCredsAction(formData);
+  //   if (result.error) {
+  //     // Handle error (e.g., show error message)
+  //     alert(result?.error);
+  //   } else {
+  //     // Handle successful sign-up (e.g., show success message, redirect)
+  //   }
+  // };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6">
+    <form action={signUpWithCredsAction} className="space-y-6">
       <Input
         label="Full name"
         type="text"

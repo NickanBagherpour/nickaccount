@@ -29,6 +29,7 @@ export const {
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
+
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
@@ -44,7 +45,6 @@ export const {
           if (!isMatch) {
             throw new Error('Incorrect password.');
           }
-          console.log('existingUser', existingUser);
           return existingUser;
         } else {
           throw new Error('User not found.');

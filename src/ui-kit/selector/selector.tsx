@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useRef, useEffect } from 'react';
 
 import { FiChevronDown } from 'react-icons/fi';
@@ -21,7 +23,9 @@ export const Selector: React.FC<SelectorProps> = ({
   const containerRef = useRef<HTMLDivElement>(null);
 
   const handleOptionClick = (optionValue: string) => {
-    onChange(optionValue);
+    if (onChange) {
+      onChange(optionValue);
+    }
     setIsOpen(false);
   };
 

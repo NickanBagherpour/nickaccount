@@ -2,73 +2,76 @@
 
 import { revalidatePath } from 'next/cache';
 import { AuthError } from 'next-auth';
-
 import bcrypt from 'bcryptjs';
-
-import { saltAndHashPassword } from '@/utils/helper';
 import { User as IUser } from '@/types/user.type';
 import { signIn, signOut } from '@/auth';
 import { db } from '@/db';
 import { ROUTES } from '@/constants';
 
+// Helper function to handle authentication errors
+const handleAuthError = (error: any) => {
+  if (error instanceof AuthError) {
+    switch (error.type) {
+      case 'CredentialsSignin':
+        return { error: 'Invalid credentials!' };
+      default:
+        return { error: 'Something went wrong!' };
+    }
+  }
+  throw error;
+};
+
+// Helper function to revalidate and return success
+const revalidateAndReturnSuccess = () => {
+  revalidatePath(ROUTES.HOME);
+  return { success: true };
+};
+
 export const signInAction = async (provider: string) => {
   await signIn(provider, { redirectTo: ROUTES.HOME });
-  revalidatePath(ROUTES.HOME);
+  return revalidateAndReturnSuccess();
 };
 
 export async function signOutAction() {
   try {
     await signOut({ redirect: false });
-    revalidatePath(ROUTES.HOME);
-    return { success: true };
+    return revalidateAndReturnSuccess();
   } catch (error) {
     console.error('Error signing out:', error);
     return { success: false, error: 'Failed to sign out' };
   }
 }
 
-const getUserByEmail = async (email: string) : Promise<IUser | null> => {
+const getUserByEmail = async (email: string): Promise<IUser | null> => {
   try {
     await db.read();
-    const user = db.data.users.find((user) => user.email === email) as IUser;
-    return user;
+    return (db.data.users.find((user) => user.email === email) as IUser) || null;
   } catch (error) {
     console.log(error);
     return null;
   }
 };
 
-export const signInWithCreds = async (formData: FormData) => {
-  const email = formData.get('email') as string;
-  const password = formData.get('password') as string;
-
+const authenticateUser = async (email: string, password: string) => {
   try {
-    const result = await signIn('credentials', {
+    await signIn('credentials', {
       email,
       password,
-      redirect: false,
+      redirectTo: ROUTES.HOME,
     });
-
-    if (result?.error) {
-      return { error: result.error };
-    }
-
-    revalidatePath(ROUTES.HOME);
-    return { success: true };
+    return revalidateAndReturnSuccess();
   } catch (error: any) {
-    if (error instanceof AuthError) {
-      switch (error.type) {
-        case 'CredentialsSignin':
-          return { error: 'Invalid credentials!' };
-        default:
-          return { error: 'Something went wrong!' };
-      }
-    }
-    throw error;
+    return handleAuthError(error);
   }
 };
 
-export const signUpWithCreds = async (formData: FormData) => {
+export const signInWithCredsAction = async (formData: FormData) => {
+  const email = formData.get('email') as string;
+  const password = formData.get('password') as string;
+  return authenticateUser(email, password);
+};
+
+export const signUpWithCredsAction = async (formData: FormData) => {
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
@@ -92,19 +95,8 @@ export const signUpWithCreds = async (formData: FormData) => {
     db.data!.users.push(newUser);
     await db.write();
 
-    // Automatically sign in the user after successful sign-up
-    const result = await signIn('credentials', {
-      email,
-      password,
-      redirect: false,
-    });
-
-    if (result?.error) {
-      return { error: result.error };
-    }
-
-    revalidatePath(ROUTES.HOME);
-    return { success: true };
+    // Authenticate the user after successful sign-up
+    return authenticateUser(email, password);
   } catch (error) {
     console.error('Sign-up error:', error);
     return { error: 'Failed to create account' };

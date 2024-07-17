@@ -8,7 +8,7 @@ export interface SelectorOption {
 export interface SelectorProps {
   options: SelectorOption[];
   value: string;
-  onChange: (value: string) => void;
+  onChange?: (value: string) => void;
   icon?: ReactNode;
   placeholder?: string;
   className?: string;

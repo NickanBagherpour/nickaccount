@@ -24,10 +24,10 @@ export default async function RootLayout({
   const session = await auth();
 
   return (
-    <SessionProvider session={session}>
-      <html lang='en' className={isDarkMode ? 'dark' : ''}>
+    <html lang='en' className={isDarkMode ? 'dark' : ''}>
+      <SessionProvider session={session}>
         <body className={inter.className}>{children}</body>
-      </html>
-    </SessionProvider>
+      </SessionProvider>
+    </html>
   );
 }

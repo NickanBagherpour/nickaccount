@@ -2,23 +2,12 @@ import React from 'react';
 import { FaGithub } from 'react-icons/fa';
 
 import { Input, Button } from '@/ui-kit';
-import { signInAction, signInWithCreds } from '@/actions/auth.action';
+import { signInAction, signInWithCredsAction } from '@/actions/auth.action';
 
 export const SignInForm: React.FC = () => {
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    const result = await signInWithCreds(formData);
-    if (result.error) {
-      // Handle error (e.g., show error message)
-    } else {
-      // Handle successful sign-in (e.g., redirect to dashboard)
-    }
-  };
-
-  const handleGithubSignIn = () => {
-    signInAction('github');
+  const handleGithubSignIn = async () => {
+    await signInAction('github');
   };
 
   return (
@@ -34,7 +23,8 @@ export const SignInForm: React.FC = () => {
           <span className='px-2 bg-gray-900 text-gray-400'>Or continue with</span>
         </div>
       </div>
-      <form onSubmit={handleSubmit} className='space-y-6'>
+      
+      <form action={signInWithCredsAction} className='space-y-6'>
         <Input label='Email address' type='email' id='email' name='email' autoComplete='email' required fullWidth />
         <Input
           label='Password'
