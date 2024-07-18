@@ -2,8 +2,8 @@ import NextAuth from 'next-auth';
 
 import Github from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
-import bcrypt from 'bcryptjs';
 
+import { comparePasswords } from './utils/helper';
 import { db } from '@/db';
 
 export const {
@@ -29,7 +29,6 @@ export const {
         password: { label: 'Password', type: 'password' },
       },
       authorize: async (credentials) => {
-
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
@@ -41,7 +40,7 @@ export const {
         const existingUser = db.data?.users.find((user) => user.email === email);
 
         if (existingUser) {
-          const isMatch = bcrypt.compareSync(password, existingUser.hashedPassword);
+          const isMatch = comparePasswords(password, existingUser.hashedPassword);
           if (!isMatch) {
             throw new Error('Incorrect password.');
           }
