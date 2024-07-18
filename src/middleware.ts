@@ -5,7 +5,7 @@ import { auth } from '@/auth';
 
 import { ROUTES } from './constants';
 
-const protectedRoutes = [ROUTES.DASHBOARD, ROUTES.REPORT_1, ROUTES.REPORT_2];
+const protectedRoutes: string[] = [/*ROUTES.DASHBOARD, ROUTES.REPORT_1, ROUTES.REPORT_2*/];
 
 // Function to check if a URL has the same origin as the request
 function isSameOrigin(request: NextRequest, url: string | null): boolean {

@@ -1,26 +1,24 @@
-'use client';
+'use server';
 
-import React, { useState } from 'react';
+import React from 'react';
 
-import AppBar from '@/components/dashboard/appbar';
-import Sidebar from '@/components/dashboard/sidebar';
+import DashboardScaffold from '@/components/dashboard/dashboard-scaffold';
+import { withAuth } from '@/hocs/with-auth';
 
-export default function DashboardLayout({ children }: { children: React.ReactNode }) {
-  const [sidebarOpen, setSidebarOpen] = useState(false);
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+}
 
-  const toggleSidebar = () => {
-    setSidebarOpen(!sidebarOpen);
-  };
-
+const DashboardLayout = async ({ children }: DashboardLayoutProps) => {
   return (
     <div className='flex h-screen bg-gray-100 dark:bg-gray-900'>
-      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
-      <div className='flex flex-col flex-1 overflow-hidden'>
-        <AppBar toggleSidebar={toggleSidebar} />
+      <DashboardScaffold>
         <main className='flex-1 overflow-x-hidden overflow-y-auto bg-gray-100 dark:bg-gray-900'>
           <div className='container mx-auto px-6 py-8'>{children}</div>
         </main>
-      </div>
+      </DashboardScaffold>
     </div>
   );
-}
+};
+
+export default withAuth(DashboardLayout);

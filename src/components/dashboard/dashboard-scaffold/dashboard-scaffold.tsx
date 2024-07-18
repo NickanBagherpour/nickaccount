@@ -1,0 +1,30 @@
+'use client';
+
+import React, { useState } from 'react';
+
+import Sidebar from '@/components/dashboard/sidebar';
+import AppBar from '@/components/dashboard/appbar';
+
+interface DashboardScaffoldProps {
+  children: React.ReactNode;
+}
+
+export default function DashboardScaffold({ children }: DashboardScaffoldProps) {
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
+  const toggleSidebar = () => {
+    setSidebarOpen(!sidebarOpen);
+  };
+
+  return (
+    <>
+      <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
+
+      <div className='flex flex-col flex-1 overflow-hidden'>
+        <AppBar toggleSidebar={toggleSidebar} />
+        {children}
+      </div>
+    
+    </>
+  );
+}
