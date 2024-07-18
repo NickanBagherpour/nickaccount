@@ -5,12 +5,13 @@ import { auth } from '@/auth';
 import { ROUTES } from '@/constants/routes';
 import { APP_NAME } from '@/constants/config';
 import { Button, Selector } from '@/ui-kit';
+import { NavItem } from '@/types/nav-item.type';
 
 import AuthButton from '../auth-button';
 import ThemeSelector from '../theme-selector';
 import MobileMenu from '../mobile-menu';
 
-const navItems = [
+const navItems : NavItem[] = [
   { name: 'Dashboard', href: ROUTES.DASHBOARD, protected: true },
   { name: 'Marketing', href: ROUTES.MARKETING },
   { name: 'Contact Us', href: ROUTES.CONTACT },

@@ -5,20 +5,22 @@ import Link from 'next/link';
 import { FiMenu, FiX, FiGlobe } from 'react-icons/fi';
 
 import { Button, Selector } from '@/ui-kit';
+import { NavItem } from '@/types/nav-item.type';
 
 import AuthButton from '../auth-button/auth-button';
 import ThemeSelector from '../theme-selector/theme-selector';
+import { LOCALE } from '@/constants';
 
-const languages = [
-  { value: 'en', label: 'English' },
-  { value: 'fa', label: 'فارسی' },
-];
+const languages = LOCALE.map(locale => ({
+  value: locale.code,
+  label: locale.name
+}));
 
 export default function MobileMenu({
   navItems,
   isAuthenticated,
 }: {
-  navItems: Array<{ name: string; href: string }>;
+  navItems: NavItem[];
   isAuthenticated: boolean;
 }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
