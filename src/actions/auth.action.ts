@@ -4,7 +4,7 @@ import { revalidatePath } from 'next/cache';
 import { AuthError } from 'next-auth';
 import bcrypt from 'bcryptjs';
 import { User as IUser } from '@/types/user.type';
-import { signIn, signOut } from '@/auth';
+import { signIn, signOut, auth } from '@/auth';
 import { db } from '@/db';
 import { ROUTES } from '@/constants';
 
@@ -101,4 +101,17 @@ export const signUpWithCredsAction = async (formData: FormData) => {
     console.error('Sign-up error:', error);
     return { error: 'Failed to create account' };
   }
+};
+
+export const userProfileAction = async () => {
+  const session = await auth();
+
+  if (!session || !session.user) {
+    return null;
+  }
+
+  return {
+    name: session.user.name,
+    image: session.user.image,
+  };
 };

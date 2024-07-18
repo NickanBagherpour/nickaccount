@@ -4,12 +4,15 @@ import React, { useState } from 'react';
 
 import Sidebar from '@/components/dashboard/sidebar';
 import AppBar from '@/components/dashboard/appbar';
+import { userProfileAction } from '@/actions/auth.action';
+import { User } from '@/types/user.type';
 
 interface DashboardScaffoldProps {
   children: React.ReactNode;
+  user: Omit<User, 'hashedPassword'> | null;
 }
 
-export default function DashboardScaffold({ children }: DashboardScaffoldProps) {
+export default function DashboardScaffold({ children, user }: DashboardScaffoldProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
   const toggleSidebar = () => {
@@ -21,10 +24,11 @@ export default function DashboardScaffold({ children }: DashboardScaffoldProps) 
       <Sidebar isOpen={sidebarOpen} toggleSidebar={toggleSidebar} />
 
       <div className='flex flex-col flex-1 overflow-hidden'>
-        <AppBar toggleSidebar={toggleSidebar} />
+
+        <AppBar toggleSidebar={toggleSidebar} user={user} />
+
         {children}
       </div>
-    
     </>
   );
 }
