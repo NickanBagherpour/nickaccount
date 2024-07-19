@@ -13,6 +13,11 @@ const config: Config = {
           750: '#2D3748',
           775: '#283141',
         },
+        winter: {
+          primary: '#a0c4ff',
+          secondary: '#9bf6ff',
+          accent: '#caffbf',
+        },
       },
     },
   },
