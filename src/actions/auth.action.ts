@@ -2,23 +2,41 @@
 
 import { revalidatePath } from 'next/cache';
 import { AuthError } from 'next-auth';
+
 import bcrypt from 'bcryptjs';
+
 import { User as IUser } from '@/types/user.type';
 import { signIn, signOut, auth } from '@/auth';
 import { db } from '@/db';
 import { ROUTES } from '@/constants';
+import { ActionResult } from '@/types/action-result.type';
+import { serverActionWrapper } from './server-action-wrapper';
 
 // Helper function to handle authentication errors
 const handleAuthError = (error: any) => {
   if (error instanceof AuthError) {
     switch (error.type) {
       case 'CredentialsSignin':
-        return { error: 'Invalid credentials!' };
+        // The actual error message is often in error.cause
+        if (error.cause instanceof Error) {
+          return { success: false, error: error.cause.message };
+        }
+        return { success: false, error: 'Invalid credentials!' };
       default:
-        return { error: 'Something went wrong!' };
+        // Check if there's a more specific error message available
+        if (error.message) {
+          return { success: false, error: error.message };
+        }
+        return { success: false, error: 'Something went wrong!' };
     }
   }
-  throw error;
+
+  // Handle other types of errors
+  if (error instanceof Error) {
+    return { success: false, error: error.message };
+  }
+
+  return { success: false, error: 'An unexpected error occurred.' };
 };
 
 // Helper function to revalidate and return success
@@ -32,15 +50,10 @@ export const signInAction = async (provider: string) => {
   return revalidateAndReturnSuccess();
 };
 
-export async function signOutAction() {
-  try {
-    await signOut({ redirect: false });
-    return revalidateAndReturnSuccess();
-  } catch (error) {
-    console.error('Error signing out:', error);
-    return { success: false, error: 'Failed to sign out' };
-  }
-}
+export const signOutAction = async () => {
+  await signOut({ redirect: false });
+  return revalidateAndReturnSuccess();
+};
 
 const getUserByEmail = async (email: string): Promise<IUser | null> => {
   try {
@@ -52,23 +65,26 @@ const getUserByEmail = async (email: string): Promise<IUser | null> => {
   }
 };
 
-const authenticateUser = async (email: string, password: string) => {
+const authenticateUser = async (email: string, password: string): Promise<ActionResult<null>> => {
   try {
     await signIn('credentials', {
       email,
       password,
-      redirectTo: ROUTES.HOME,
+      // redirect: false, // We'll handle redirect manually
     });
-    return revalidateAndReturnSuccess();
-  } catch (error: any) {
-    return handleAuthError(error);
+
+    revalidatePath(ROUTES.HOME);
+    return { success: true, data: null };
+  } catch (error) {
+    throw handleAuthError(error);
   }
 };
 
 export const signInWithCredsAction = async (formData: FormData) => {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  return authenticateUser(email, password);
+  // return authenticateUser(email, password);
+  return serverActionWrapper(async () => await authenticateUser(email, password));
 };
 
 export const signUpWithCredsAction = async (formData: FormData) => {
@@ -81,7 +97,7 @@ export const signUpWithCredsAction = async (formData: FormData) => {
     const existingUser = await getUserByEmail(email);
 
     if (existingUser) {
-      return { error: 'User already exists' };
+      return { success: false, error: 'User already exists' };
     }
 
     const hashedPassword = bcrypt.hashSync(password, 10);
@@ -96,10 +112,11 @@ export const signUpWithCredsAction = async (formData: FormData) => {
     await db.write();
 
     // Authenticate the user after successful sign-up
-    return authenticateUser(email, password);
+    // return authenticateUser(email, password);
+    return serverActionWrapper(async () => await authenticateUser(email, password));
   } catch (error) {
     console.error('Sign-up error:', error);
-    return { error: 'Failed to create account' };
+    return { success: false, error: 'Failed to create account' };
   }
 };
 
