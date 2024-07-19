@@ -3,9 +3,9 @@ export const selectorStyles = {
   select: `
     flex items-center justify-between
     w-full
-    bg-white dark:bg-gray-800
-    border border-gray-300 dark:border-gray-600
-    text-gray-700 dark:text-gray-200
+    bg-white dark:bg-gray-800 winter:bg-winter-primary
+    border border-gray-300 dark:border-gray-600 winter:border-winter-secondary
+    text-gray-700 dark:text-gray-200 winter:text-gray-900
     rounded-md
     shadow-sm
     focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500
@@ -26,8 +26,7 @@ export const selectorStyles = {
     ml-2
   `,
   disabled: `
-    bg-gray-100
-    dark:bg-gray-700
+    bg-gray-100 dark:bg-gray-700 winter:bg-winter-secondary
     cursor-not-allowed
   `,
   size: {
@@ -47,15 +46,16 @@ export const selectorStyles = {
   },
   optionsContainer: `
     absolute z-10 w-full mt-1
-    bg-white dark:bg-gray-800
-    border border-gray-300 dark:border-gray-600
+    bg-white dark:bg-gray-800 winter:bg-winter-primary
+    border border-gray-300 dark:border-gray-600 winter:border-winter-secondary
     rounded-md shadow-lg
     overflow-hidden
   `,
   option: {
     base: `
       py-1 px-4
-      hover:bg-gray-100 dark:hover:bg-gray-700
+      text-gray-700 dark:text-gray-200 winter:text-gray-900
+      hover:bg-gray-100 dark:hover:bg-gray-700 winter:hover:bg-winter-secondary
       cursor-pointer
     `,
     size: {
@@ -64,4 +64,4 @@ export const selectorStyles = {
       large: 'text-lg',
     },
   },
-};
+}
