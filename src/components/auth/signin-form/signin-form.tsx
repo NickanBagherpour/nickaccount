@@ -51,7 +51,7 @@ export const SignInForm: React.FC = () => {
           required
           fullWidth
         />
-        <Button type='submit' fullWidth>
+        <Button type='submit' fullWidth loading={pending}>
           Sign in
         </Button>
       </form>

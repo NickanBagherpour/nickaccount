@@ -83,7 +83,7 @@ export default async function HomePage() {
               Join thousands of businesses already leveraging our platform.
             </p>
             <Link 
-              href={ROUTES.AUTH}
+              href={`${ROUTES.AUTH}?mode=signup`}
               className="bg-white text-blue-600 hover:bg-blue-50 font-bold py-3 px-6 rounded-lg transition duration-300"
             >
               Sign Up Now
