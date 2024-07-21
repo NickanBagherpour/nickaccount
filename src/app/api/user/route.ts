@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { db } from '@/db';
+import { dbUtils } from '@/utils/db-utils';
 
 export async function POST(request: Request) {
   try {
@@ -12,9 +12,8 @@ export async function POST(request: Request) {
 
     const { email } = await request.json();
 
-    await db.read();
 
-    const user = db.data?.users.find((u) => u?.email?.toLowerCase() === email.toLowerCase());
+    const user = await dbUtils.findUserByEmail(email);
 
     if (!user) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
