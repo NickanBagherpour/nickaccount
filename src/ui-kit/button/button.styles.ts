@@ -8,7 +8,7 @@ export const buttonSizeStyles = {
 };
 
 export const buttonVariantStyles = {
-  contained: 'dark:text-white text-gray-900',
+  contained: 'dark:text-white text-white',
   outlined: 'bg-transparent border',
   text: 'bg-transparent',
   link: 'bg-transparent underline hover:no-underline',
