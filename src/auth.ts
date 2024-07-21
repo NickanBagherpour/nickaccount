@@ -1,10 +1,8 @@
 import NextAuth from 'next-auth';
-
 import Github from 'next-auth/providers/github';
 import Credentials from 'next-auth/providers/credentials';
 
-import { comparePasswords } from './utils/helper';
-import { db } from '@/db';
+import { fetchApi } from './utils/api-client';
 
 export const {
   handlers: { GET, POST },
@@ -21,34 +19,28 @@ export const {
     Credentials({
       name: 'Credentials',
       credentials: {
-        email: {
-          label: 'Email',
-          type: 'email',
-          //   placeholder: "email@example.com",
-        },
+        email: { label: 'Email', type: 'email' },
         password: { label: 'Password', type: 'password' },
       },
-      authorize: async (credentials) => {
+      async authorize(credentials) {
         if (!credentials || !credentials.email || !credentials.password) {
           return null;
         }
 
-        const email = credentials.email as string;
-        const password = credentials.password as string;
+        try {
+          const user = await fetchApi({
+            path: '/api/auth',
+            method: 'POST',
+            body: JSON.stringify({ action: 'signin', email: credentials.email, password: credentials.password }),
+          });
 
-        await db.read();
-        const existingUser = db.data?.users.find((user) => user.email === email);
-
-        if (existingUser) {
-          const isMatch = comparePasswords(password, existingUser.hashedPassword);
-          if (!isMatch) {
-            throw new Error('Incorrect password.');
-          }
-          return existingUser;
-        } else {
-          throw new Error('User not found.');
+          return user;
+        } catch (error) {
+          console.error('Authentication error:', error);
+          return null;
         }
       },
     }),
   ],
+  // Add callbacks or other configuration as needed
 });

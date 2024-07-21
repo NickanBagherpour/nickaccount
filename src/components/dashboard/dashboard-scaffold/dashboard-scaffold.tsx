@@ -4,12 +4,11 @@ import React, { useState } from 'react';
 
 import Sidebar from '@/components/dashboard/sidebar';
 import AppBar from '@/components/dashboard/appbar';
-import { userProfileAction } from '@/actions/auth.action';
 import { User } from '@/types/user.type';
 
 interface DashboardScaffoldProps {
   children: React.ReactNode;
-  user: Omit<User, 'hashedPassword'> | null;
+  user?: User;
 }
 
 export default function DashboardScaffold({ children, user }: DashboardScaffoldProps) {

@@ -1,48 +1,22 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
-import { AuthError } from 'next-auth';
 
-import bcrypt from 'bcryptjs';
-
-import { User as IUser } from '@/types/user.type';
-import { signIn, signOut, auth } from '@/auth';
-import { db } from '@/db';
+import { auth, signIn, signOut } from '@/auth';
 import { ROUTES } from '@/constants';
 import { ActionResult } from '@/types/action-result.type';
-import { serverActionWrapper } from './server-action-wrapper';
+import { fetchApi } from '@/utils/api-client';
 
 // Helper function to handle authentication errors
-const handleAuthError = (error: any) => {
-  if (error instanceof AuthError) {
-    switch (error.type) {
-      case 'CredentialsSignin':
-        // The actual error message is often in error.cause
-        if (error.cause instanceof Error) {
-          return { success: false, error: error.cause.message };
-        }
-        return { success: false, error: 'Invalid credentials!' };
-      default:
-        // Check if there's a more specific error message available
-        if (error.message) {
-          return { success: false, error: error.message };
-        }
-        return { success: false, error: 'Something went wrong!' };
-    }
-  }
-
-  // Handle other types of errors
-  if (error instanceof Error) {
-    return { success: false, error: error.message };
-  }
-
-  return { success: false, error: 'An unexpected error occurred.' };
+const handleAuthError = (error: any): ActionResult<null> => {
+  console.error('Auth error:', error);
+  return { success: false, error: error.message || 'An unexpected error occurred.' };
 };
 
 // Helper function to revalidate and return success
-const revalidateAndReturnSuccess = () => {
+const revalidateAndReturnSuccess = (): ActionResult<null> => {
   revalidatePath(ROUTES.HOME);
-  return { success: true };
+  return { success: true, data: null };
 };
 
 export const signInAction = async (provider: string) => {
@@ -50,85 +24,97 @@ export const signInAction = async (provider: string) => {
   return revalidateAndReturnSuccess();
 };
 
-export const signOutAction = async () => {
-  await signOut({ redirect: false });
-  return revalidateAndReturnSuccess();
-};
-
-const getUserByEmail = async (email: string): Promise<IUser | null> => {
-  try {
-    await db.read();
-    return (db.data.users.find((user) => user.email === email) as IUser) || null;
-  } catch (error) {
-    console.log(error);
-    return null;
-  }
-};
-
-const authenticateUser = async (email: string, password: string): Promise<ActionResult<null>> => {
-  try {
-    await signIn('credentials', {
-      email,
-      password,
-      // redirect: false, // We'll handle redirect manually
-    });
-
-    revalidatePath(ROUTES.HOME);
-    return { success: true, data: null };
-  } catch (error) {
-    throw handleAuthError(error);
-  }
-};
-
-export const signInWithCredsAction = async (formData: FormData) => {
+export async function signInWithCredsAction(formData: FormData): Promise<ActionResult<null>> {
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
-  // return authenticateUser(email, password);
-  return serverActionWrapper(async () => await authenticateUser(email, password));
-};
 
-export const signUpWithCredsAction = async (formData: FormData) => {
+  try {
+    const response = await fetchApi({
+      path: '/api/auth',
+      method: 'POST',
+      body: JSON.stringify({ action: 'signin', email, password }),
+    });
+
+    if (response.error) {
+      throw new Error(response.error);
+    }
+
+    // If API call is successful, call signIn to create a session
+    await signIn('credentials', { email, password, redirect: false });
+
+    return revalidateAndReturnSuccess();
+  } catch (error) {
+    return handleAuthError(error);
+  }
+}
+
+export async function signUpWithCredsAction(formData: FormData): Promise<ActionResult<null>> {
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const password = formData.get('password') as string;
 
   try {
-    await db.read();
-    const existingUser = await getUserByEmail(email);
+    const response = await fetchApi({
+      path: '/api/auth',
+      method: 'POST',
+      body: JSON.stringify({ action: 'signup', name, email, password }),
+    });
 
-    if (existingUser) {
-      return { success: false, error: 'User already exists' };
+    if (response.error) {
+      throw new Error(response.error);
     }
 
-    const hashedPassword = bcrypt.hashSync(password, 10);
-    const newUser: IUser = {
-      id: (db.data!.users.length + 1).toString(),
-      name,
-      email,
-      hashedPassword,
-    };
+    // If API call is successful, call signIn to create a session
+    await signIn('credentials', { email, password, redirect: false });
 
-    db.data!.users.push(newUser);
-    await db.write();
-
-    // Authenticate the user after successful sign-up
-    // return authenticateUser(email, password);
-    return serverActionWrapper(async () => await authenticateUser(email, password));
+    return revalidateAndReturnSuccess();
   } catch (error) {
-    console.error('Sign-up error:', error);
-    return { success: false, error: 'Failed to create account' };
+    return handleAuthError(error);
   }
-};
+}
 
-export const userProfileAction = async () => {
-  const session = await auth();
+export async function signOutAction(): Promise<ActionResult<null>> {
+  try {
+    const response = await fetchApi({
+      path: '/api/auth',
+      method: 'POST',
+      body: JSON.stringify({ action: 'signout' }),
+    });
 
-  if (!session || !session.user) {
-    return null;
+    if (response.error) {
+      throw new Error(response.error);
+    }
+
+    await signOut({ redirect: false });
+    return revalidateAndReturnSuccess();
+  } catch (error) {
+    return handleAuthError(error);
   }
+}
 
-  return {
-    name: session.user.name,
-    image: session.user.image,
-  };
-};
+export async function userProfileAction(): Promise<
+  ActionResult<{ name?: string | null; image?: string | null } | null>
+> {
+  try {
+    const session = await auth();
+
+    if (!session || !session.user || !session.user.email) {
+      return { success: false, error: 'No active session', data: null };
+    }
+
+    const response = await fetchApi({
+      path: '/api/user',
+      method: 'POST',
+      body: JSON.stringify({ email: session.user.email }),
+    });
+
+    if (response.error) {
+      throw new Error(response.error);
+    }
+
+    return { success: true, data: response };
+  } catch (error) {
+    return handleAuthError(error);
+  }
+}
+
