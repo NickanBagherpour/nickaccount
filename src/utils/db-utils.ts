@@ -1,9 +1,11 @@
 
 import { db } from '@/lib';
 import { User } from '@/types/user.type';
+import { Nullable } from '@/types/utility.type';
+import { uuid } from './helper';
 
 export const dbUtils = {
-  async findUserByEmail(email: string): Promise<User | undefined> {
+  async findUserByEmail(email: string): Promise<Nullable<User>> {
     await db.read();
     return db.data?.users.find((u) => u?.email?.toLowerCase() === email.toLowerCase());
   },
@@ -12,14 +14,14 @@ export const dbUtils = {
     await db.read();
     const newUser = {
       ...user,
-      id: (db.data!.users.length + 1).toString(),
+      id: uuid(),
     };
     db.data!.users.push(newUser);
     await db.write();
     return newUser;
   },
 
-  async updateUser(id: string, updates: Partial<User>): Promise<User | undefined> {
+  async updateUser(id: string, updates: Partial<User>): Promise<Nullable<User>> {
     await db.read();
     const userIndex = db.data!.users.findIndex((u) => u.id === id);
     if (userIndex !== -1) {
