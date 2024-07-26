@@ -2,18 +2,21 @@
 
 import React from 'react';
 import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+
+import { FaBars } from 'react-icons/fa';
+
 
 import { Dropdown } from '@/ui-kit';
 import { APP_NAME } from '@/constants/config';
 import { ROUTES } from '@/constants/routes';
 import { User } from '@/types/user.type';
+import { Nullable } from '@/types/utility.type';
 import { signOutAction } from '@/actions/auth.action';
-import { useRouter } from 'next/navigation';
-import { FaBars } from 'react-icons/fa';
 
 type AppBarProps = {
   toggleSidebar: () => void;
-  user: Omit<User, 'hashedPassword'> | null;
+  user: Nullable<User>;
 };
 
 export default function AppBar({ toggleSidebar, user }: AppBarProps) {

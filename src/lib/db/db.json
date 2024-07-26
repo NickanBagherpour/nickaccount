@@ -1,28 +1,16 @@
 {
   "users": [
     {
-      "id": "1",
       "name": "nickan bagherpour",
       "email": "nickan.bagherpour.en@gmail.com",
-      "hashedPassword": "$2a$10$/Sg3P/U.ulzDB4SqJ9vtB.DuEYrzPDljFIg/rlVrW/ac9wOE0oI.W"
+      "hashedPassword": "$2a$10$EC73CEZBrLwwOMT2xsVmj.bYhzNWREg11gm1Ef1s7b7fsijsrYYTu",
+      "id": "82fc6602-61cb-41d2-9044-4ddfd55e29bb"
     },
     {
-      "id": "2",
       "name": "user",
       "email": "user@nextmail.com",
-      "hashedPassword": "$2a$10$xDPugNQkKx8WZG6MfiKXXuXKXhWYzAcPi3JrlcnRlGwnXAwdWr1eW"
-    },
-    {
-      "id": "3",
-      "name": "nickan bagherpour",
-      "email": "nickan.shafiee@meysam.com",
-      "hashedPassword": "$2a$10$bZ70NVvvLUsgw0/pjz99FuhNuQv2ADWv7ixNs/RRo7JspYrypuLaK"
-    },
-    {
-      "id": "4",
-      "name": "nickan bagherpour",
-      "email": "Nickan.bagherpour@gmail.com",
-      "hashedPassword": "$2a$10$5NgdIh9XP036u7rZyxfA1OmxbsJwABKWevsZ2WRzcZLXz063o2pNy"
+      "hashedPassword": "$2a$10$BJ1KDmn8Rw2dmvWNLzb0QuHACGeaTFKTPRNLojBM9GJYdvudL6H96",
+      "id": "6f6b9af5-5c0b-4ee2-96c4-6b4a50e159a2"
     }
   ]
 }
