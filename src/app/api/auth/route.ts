@@ -3,6 +3,7 @@ import { NextResponse } from 'next/server';
 import bcrypt from 'bcryptjs';
 
 import { dbUtils } from '@/utils/db-utils';
+import { generateToken } from '@/utils/jwt-util';
 
 export async function POST(request: Request) {
   const { action, ...data } = await request.json();
@@ -20,7 +21,6 @@ export async function POST(request: Request) {
 }
 
 async function handleSignIn({ email, password }: { email: string; password: string }) {
- 
   const user = await dbUtils.findUserByEmail(email);
 
   if (!user) {
@@ -32,13 +32,24 @@ async function handleSignIn({ email, password }: { email: string; password: stri
     return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 });
   }
 
-  // Return user data without sensitive information
+  // Check if user has necessary properties
+  if (!user.id || !user.email) {
+    return NextResponse.json({ error: 'Invalid user data' }, { status: 500 });
+  }
+
+  // Generate a JWT token using the utility function
+  const token = generateToken({
+    userId: user.id,
+    name: user.name ?? '',
+    email: user.email,
+  });
+
+  // Return user data without sensitive information and include the token
   const { hashedPassword, ...safeUser } = user;
-  return NextResponse.json(safeUser);
+  return NextResponse.json({ ...safeUser, accessToken: token });
 }
 
 async function handleSignUp({ name, email, password }: { name: string; email: string; password: string }) {
-
   const existingUser = await dbUtils.findUserByEmail(email);
 
   if (existingUser) {

@@ -1,17 +1,11 @@
 import { NextResponse } from 'next/server';
 
 import { dbUtils } from '@/utils/db-utils';
+import { AuthenticatedRequest, withApiAuth } from '@/utils/auth-middleware';
 
-export async function POST(request: Request) {
+async function handler(request: AuthenticatedRequest) {
   try {
-    // const session = await getServerSession(authOptions);
-
-    // if (!session || !session.user || !session.user.email) {
-    //   return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    // }
-
-    const { email } = await request.json();
-
+    const { email } = request.user;
 
     const user = await dbUtils.findUserByEmail(email);
 
@@ -19,13 +13,14 @@ export async function POST(request: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    return NextResponse.json({
-      name: user.name,
-      email: user.email,
-      image: user?.image,
-    });
+    // Remove sensitive information before sending the response
+    const { hashedPassword, ...safeUser } = user;
+
+    return NextResponse.json(safeUser);
   } catch (error) {
     console.error('Error fetching user profile:', error);
     return NextResponse.json({ error: 'Failed to fetch user profile' }, { status: 500 });
   }
 }
+
+export const GET = withApiAuth(handler);
