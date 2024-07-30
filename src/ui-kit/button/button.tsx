@@ -9,6 +9,7 @@ export const Button: React.FC<ButtonProps> = ({
   variant = 'contained',
   color = 'primary',
   size = 'medium',
+  shape = 'default',
   icon,
   loading = false,
   className = '',
@@ -20,7 +21,8 @@ export const Button: React.FC<ButtonProps> = ({
   const isDisabled = loading || props.disabled;
 
   const baseClasses = S.buttonBaseStyles;
-  const sizeClasses = S.buttonSizeStyles[size];
+  const sizeClasses = S.buttonSizeStyles[size][shape];
+  const shapeClasses = S.buttonShapeStyles[shape];
   const variantClasses = S.buttonVariantStyles[variant];
   const colorClasses = S.buttonColorStyles[color][variant];
   const disabledClasses = isDisabled ? S.buttonDisabledStyles[variant] : '';
@@ -30,6 +32,7 @@ export const Button: React.FC<ButtonProps> = ({
   const classes = classNames(
     baseClasses,
     sizeClasses,
+    shapeClasses,
     variantClasses,
     !isDisabled && colorClasses,
     disabledClasses,
@@ -47,17 +50,8 @@ export const Button: React.FC<ButtonProps> = ({
     }
   };
 
-  // Remove potentially problematic props
-  // const { href, target, rel, ...safeProps } = props;
-
-  return (
-    <button 
-      className={classes} 
-      disabled={isDisabled} 
-      onClick={handleClick}
-      type={type}
-      {...props}
-    >
+  const content = (
+    <>
       {loading && (
         <span className='absolute inset-0 flex items-center justify-center'>
           <svg className='animate-spin h-5 w-5' viewBox='0 0 24 24'>
@@ -68,9 +62,21 @@ export const Button: React.FC<ButtonProps> = ({
       )}
 
       <span className='flex items-center justify-center' style={{ opacity: loading ? 0.4 : 1 }}>
-        {icon && <span className='mr-2'>{icon}</span>}
-        <span>{children}</span>
+        {icon && <span className={shape === 'circle' ? '' : 'mr-2'}>{icon}</span>}
+        {shape !== 'circle' && <span>{children}</span>}
       </span>
+    </>
+  );
+
+  return (
+    <button 
+      className={classes} 
+      disabled={isDisabled} 
+      onClick={handleClick}
+      type={type}
+      {...props}
+    >
+      {content}
     </button>
   );
 }

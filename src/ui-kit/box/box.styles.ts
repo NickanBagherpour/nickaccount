@@ -1,5 +1,6 @@
 
-import { SpacingStyleKey, SpacingStyleValue, SpacingValue } from './box.types';
+import { SpacingValue } from '../types';
+import { SpacingStyleKey, SpacingStyleValue } from './box.types';
 
 export const boxStyles = {
   base: 'transition-all duration-300',
