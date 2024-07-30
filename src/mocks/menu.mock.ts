@@ -10,6 +10,10 @@ export const menuItems: MenuItem[] = [
     // icon: <FaHome />,
   },
   {
+    label: 'Transactions',
+    path: ROUTES.TRANSACTIONS,
+  },
+  {
     label: 'Report 1',
     path: ROUTES.REPORT_1,
   },

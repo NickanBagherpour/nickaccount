@@ -9,7 +9,7 @@ export default function DashboardPage() {
   const { totalUsers, totalRevenue, growthRate } = mockDashboardData;
 
   const [isModalOpen, setIsModalOpen] = useState(false);
-  
+
   return (
     <Box padding='lg'>
       <Box margin={{ bottom: 'lg' }}>
@@ -19,7 +19,7 @@ export default function DashboardPage() {
       <Box margin={{ bottom: 'xl' }}>
         <Box display='flex' className='flex-wrap -mx-4'>
           <Box width='full' className='px-4 sm:w-1/2 xl:w-1/3' margin={{ bottom: 'md' }}>
-            <Card padding='lg' hoverable className='flex items-center'>
+            <Card padding='lg' hoverable className='flex items-center bg-gray-300 dark:bg-gray-900'>
               <Box padding='sm' className='bg-indigo-600 bg-opacity-75 rounded-full'>
                 {/* You can add an icon here */}
               </Box>
@@ -32,7 +32,7 @@ export default function DashboardPage() {
             </Card>
           </Box>
           <Box width='full' className='px-4 sm:w-1/2 xl:w-1/3' margin={{ bottom: 'md' }}>
-            <Card padding='lg' hoverable className='flex items-center'>
+            <Card padding='lg' hoverable className='flex items-center bg-gray-300 dark:bg-gray-900'>
               <Box padding='sm' className='bg-green-600 bg-opacity-75 rounded-full'>
                 {/* You can add an icon here */}
               </Box>
@@ -45,7 +45,7 @@ export default function DashboardPage() {
             </Card>
           </Box>
           <Box width='full' className='px-4 sm:w-1/2 xl:w-1/3' margin={{ bottom: 'md' }}>
-            <Card padding='lg' hoverable className='flex items-center'>
+            <Card padding='lg' hoverable className='flex items-center bg-gray-300 dark:bg-gray-900'>
               <Box padding='sm' className='bg-pink-600 bg-opacity-75 rounded-full'>
                 {/* You can add an icon here */}
               </Box>
@@ -59,7 +59,7 @@ export default function DashboardPage() {
       </Box>
 
       <Box margin={{ bottom: 'xl' }}>
-        <Card >
+        <Card>
           <Box display='flex' flexDirection='column' justifyContent='between' alignItems='center'>
             <h2 className='text-xl font-semibold'>User Information</h2>
 
@@ -93,13 +93,15 @@ export default function DashboardPage() {
       <Modal
         isOpen={isModalOpen}
         onClose={() => setIsModalOpen(false)}
-        title="Example Modal"
+        title='Example Modal'
         closeOnOverlayClick={true}
       >
         <p>This is the content of the modal.</p>
-        <Button size='small' variant='tuna'>Submit</Button>
+        <Button size='small' variant='tuna'>
+          Submit
+        </Button>
       </Modal>
-      
+
       {/* Add more dashboard content here */}
     </Box>
   );

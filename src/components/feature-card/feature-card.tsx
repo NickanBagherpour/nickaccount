@@ -7,6 +7,7 @@ type Props = {
 };
 
 const FeatureCard: React.FC<Props> = ({ icon, title, description }) => {
+
   return (
     <Card hoverable padding='lg'>
       <Box display='flex' flexDirection='column' alignItems='center'>
