@@ -9,5 +9,5 @@ export interface ModalProps {
   closeOnOverlayClick?: boolean;
   showCloseButton?: boolean;
   className?: string;
-  fullscreen?: boolean; // Add this line
+  fullscreen?: boolean;
 }

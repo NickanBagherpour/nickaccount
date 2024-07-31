@@ -1,13 +1,15 @@
 'use client';
 
+import { classNames } from '@/utils/class-names';
 import React, { useState, useRef, useEffect } from 'react';
 
-interface DropdownProps {
+type DropdownProps = {
   trigger: React.ReactNode;
   children: React.ReactNode;
-}
+  className?: string;
+};
 
-const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
+const Dropdown: React.FC<DropdownProps> = ({ trigger, children, className = '' }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
 
@@ -25,7 +27,7 @@ const Dropdown: React.FC<DropdownProps> = ({ trigger, children }) => {
   }, []);
 
   return (
-    <div className="relative inline-block text-left" ref={dropdownRef}>
+    <div className={classNames('relative', className)} ref={dropdownRef}>
       <div onClick={() => setIsOpen(!isOpen)}>{trigger}</div>
       {isOpen && (
         <div className="origin-top-right absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-white dark:bg-gray-700 ring-1 ring-black ring-opacity-5">

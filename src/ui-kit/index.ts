@@ -30,5 +30,9 @@ export type { TabProps } from './tab/tab.types';
 export { Table } from './table/table';
 export type { ColumnType, TableProps } from './table/table.types';
 
+// Select
+export { Select } from './select/select';
+export type { SelectProps } from './select/select.types';
+
 
 export { default as Dropdown } from './dropdown/dropdown';

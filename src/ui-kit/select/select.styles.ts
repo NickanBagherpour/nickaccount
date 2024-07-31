@@ -1,6 +1,6 @@
-import { InputSize, InputVariant } from './input.types';
+import { SelectSize, SelectVariant } from './select.types';
 
-export const inputStyles = {
+export const selectStyles = {
   base: 'w-full transition-all duration-200 ease-in-out bg-white dark:bg-gray-800 text-gray-900 dark:text-white',
   size: {
     small: 'px-2 py-1 text-sm',
@@ -35,39 +35,50 @@ export const inputStyles = {
       error: 'text-red-500 dark:text-red-400',
     },
   },
-  adornment: {
-    base: 'absolute top-1/2 transform -translate-y-1/2 text-gray-500 dark:text-gray-400',
-    start: 'left-3',
-    end: 'right-3',
+  icon: {
+    base: 'absolute right-3 top-1/2 transform -translate-y-1/2 pointer-events-none',
+    size: {
+      small: 'w-4 h-4',
+      medium: 'w-5 h-5',
+      large: 'w-6 h-6',
+    },
   },
 };
 
-export const getInputStyles = (
-  size: InputSize,
-  variant: InputVariant,
+export const getSelectStyles = (
+  size: SelectSize,
+  variant: SelectVariant,
   error: boolean,
   fullWidth: boolean
 ) => {
   return `
-    ${inputStyles.base}
-    ${inputStyles.size[size]}
-    ${inputStyles.variant[variant]}
-    ${error ? inputStyles.state.error : inputStyles.state.normal}
+    ${selectStyles.base}
+    ${selectStyles.size[size]}
+    ${selectStyles.variant[variant]}
+    ${error ? selectStyles.state.error : selectStyles.state.normal}
     ${fullWidth ? 'w-full' : ''}
+    appearance-none
   `;
 };
 
-export const getLabelStyles = (size: InputSize, error: boolean) => {
+export const getLabelStyles = (size: SelectSize, error: boolean) => {
   return `
-    ${inputStyles.label.base}
-    ${inputStyles.label.size[size]}
-    ${error ? inputStyles.label.state.error : inputStyles.label.state.normal}
+    ${selectStyles.label.base}
+    ${selectStyles.label.size[size]}
+    ${error ? selectStyles.label.state.error : selectStyles.label.state.normal}
   `;
 };
 
 export const getHelperTextStyles = (error: boolean) => {
   return `
-    ${inputStyles.helperText.base}
-    ${error ? inputStyles.helperText.state.error : inputStyles.helperText.state.normal}
+    ${selectStyles.helperText.base}
+    ${error ? selectStyles.helperText.state.error : selectStyles.helperText.state.normal}
+  `;
+};
+
+export const getIconStyles = (size: SelectSize) => {
+  return `
+    ${selectStyles.icon.base}
+    ${selectStyles.icon.size[size]}
   `;
 };
