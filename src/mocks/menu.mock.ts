@@ -1,4 +1,3 @@
-// src/mocks/menu.mock.ts
 import { MenuItem } from '@/types/menu.type';
 import { ROUTES } from '@/constants/routes';
 // import { FaHome, FaChartBar, FaFileAlt } from 'react-icons/fa';

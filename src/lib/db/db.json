@@ -12,5 +12,52 @@
       "hashedPassword": "$2a$10$BJ1KDmn8Rw2dmvWNLzb0QuHACGeaTFKTPRNLojBM9GJYdvudL6H96",
       "id": "6f6b9af5-5c0b-4ee2-96c4-6b4a50e159a2"
     }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Groceries",
+      "userId": "1"
+    },
+    {
+      "id": "2",
+      "name": "Utilities",
+      "userId": "1"
+    },
+    {
+      "id": "3",
+      "name": "Entertainment",
+      "userId": "1"
+    },
+    {
+      "id": "4",
+      "name": "Travel",
+      "userId": "1"
+    },
+    {
+      "id": "5",
+      "name": "Clothing",
+      "userId": "1"
+    },
+    {
+      "id": "6",
+      "name": "Shopping",
+      "userId": "1"
+    },
+    {
+      "id": "7",
+      "name": "Personal",
+      "userId": "1"
+    },
+    {
+      "id": "8",
+      "name": "Gifts",
+      "userId": "1"
+    },
+    {
+      "id": "9",
+      "name": "Other",
+      "userId": "1"
+    }
   ]
 }

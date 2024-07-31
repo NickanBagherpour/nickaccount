@@ -3,6 +3,7 @@ import { db } from '@/lib';
 import { User } from '@/types/user.type';
 import { Nullable } from '@/types/utility.type';
 import { uuid } from './helper';
+import { Category } from '@/types/category.type';
 
 export const dbUtils = {
   async findUserByEmail(email: string): Promise<Nullable<User>> {
@@ -46,5 +47,10 @@ export const dbUtils = {
   async getAllUsers(): Promise<User[]> {
     await db.read();
     return db.data!.users;
+  },
+
+  async getAllCategories(): Promise<Category[]> {
+    await db.read();
+    return db.data!.categories;
   },
 };
