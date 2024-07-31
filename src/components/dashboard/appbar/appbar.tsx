@@ -13,6 +13,7 @@ import { ROUTES } from '@/constants/routes';
 import { User } from '@/types/user.type';
 import { Nullable } from '@/types/utility.type';
 import { signOutAction } from '@/actions/auth.action';
+import UserMenu from '../user-menu/user-menu';
 
 type AppBarProps = {
   toggleSidebar: () => void;
@@ -42,40 +43,7 @@ export default function AppBar({ toggleSidebar, user }: AppBarProps) {
               {APP_NAME}
             </Link>
           </div>
-          {user && (
-            <Dropdown
-              trigger={
-                <button className='flex items-center space-x-2 text-gray-800 dark:text-white hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none'>
-                  <img className='h-8 w-8 rounded-full' src={user.image || ''} alt={user.name || 'User'} />
-                  <span>{user.name}</span>
-                </button>
-              }
-            >
-              <Link
-                href='/profile'
-                className='block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
-                role='menuitem'
-              >
-                Profile
-              </Link>
-              <Link
-                href='/settings'
-                className='block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
-                role='menuitem'
-              >
-                Settings
-              </Link>
-              <form action={handleSignOut}>
-                <button
-                  type='submit'
-                  className='block w-full text-left px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-600'
-                  role='menuitem'
-                >
-                  Sign out
-                </button>
-              </form>
-            </Dropdown>
-          )}
+          {user && <UserMenu user={user} />}
         </div>
       </div>
     </header>
