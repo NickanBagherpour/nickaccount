@@ -2,11 +2,11 @@
 
 import React from 'react';
 
-import { Transaction } from '@/types/transaction.type';
+import { Transaction, TransactionWithCategory } from '@/types/transaction.type';
 import { Table } from '@/ui-kit';
 
 type Props = {
-  data?: Transaction[];
+  data?: TransactionWithCategory[];
 };
 
 export default function TransactionTable({ data }: Props) {
