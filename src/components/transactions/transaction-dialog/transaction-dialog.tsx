@@ -1,46 +1,64 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
-
 import { Modal, Input, Button, Select } from '@/ui-kit';
-import { TransactionWithCategory } from '@/types/transaction.type';
 import { mockCategories } from '@/mocks/categories.mock';
-import { useFormAction } from '@/hooks';
-import { addTransactionAction } from '@/actions/transaction.action';
+import { useAddTransaction } from '@/_api/transactions';
+import { queryClient } from '@/lib/query-client/query-client';
 
 type Props = {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (transaction: TransactionWithCategory) => void;
+  onSubmit: () => void;
 };
 
 export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) {
-  const { state, formAction, pending } = useFormAction(addTransactionAction);
   const [amount, setAmount] = useState('');
   const [categoryId, setCategoryId] = useState('');
   const [description, setDescription] = useState('');
 
-  useEffect(() => {
-    if (state.success && state.data) {
-      onSubmit(state.data);
+  const { submit, isLoading } = useAddTransaction({
+    onSuccess: () => {
+
+      queryClient.invalidateQueries({ queryKey: ['transactions'] });
+      queryClient.invalidateQueries({ queryKey: ['balance'] });
+      
+      resetForm();
+      onSubmit();
       onClose();
-      // Reset form fields
-      setAmount('');
-      setCategoryId('');
-      setDescription('');
+    },
+  });
+
+  useEffect(() => {
+    if (isOpen) {
+      resetForm();
     }
-  }, [state.success, state.data, onSubmit, onClose]);
+  }, [isOpen]);
+
+  const resetForm = () => {
+    setAmount('');
+    setCategoryId('');
+    setDescription('');
+  };
 
   const categoryOptions = mockCategories.map((category) => ({
     value: category.id,
     label: category.name,
   }));
 
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    submit({
+      amount: parseFloat(amount),
+      categoryId,
+      description,
+    });
+  };
+
   return (
     <Modal isOpen={isOpen} onClose={onClose} title='Add Transaction' closeOnOverlayClick={false}>
       <div className='space-y-4'>
-        {state.error && <div className='text-red-500 text-sm'>{state.error}</div>}
-        <form action={formAction} className='space-y-6'>
+        <form onSubmit={handleSubmit} className='space-y-6'>
           <Input
             label='Amount'
             type='number'
@@ -50,8 +68,7 @@ export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) 
             onChange={(e) => setAmount(e.target.value)}
             required
             fullWidth
-            disabled={pending}
-            error={state.error && state.error.includes('amount') ? state.error : undefined}
+            disabled={isLoading}
           />
           <Select
             label='Category'
@@ -62,9 +79,8 @@ export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) 
             options={categoryOptions}
             required
             fullWidth
-            disabled={pending}
-            loading={pending}
-            error={state.error && state.error.includes('category') ? state.error : undefined}
+            disabled={isLoading}
+            // loading={isLoading}
           />
           <Input
             label='Description'
@@ -74,9 +90,9 @@ export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) 
             value={description}
             onChange={(e) => setDescription(e.target.value)}
             fullWidth
-            disabled={pending}
+            disabled={isLoading}
           />
-          <Button type='submit' fullWidth loading={pending}>
+          <Button type='submit' fullWidth loading={isLoading}>
             Add Transaction
           </Button>
         </form>

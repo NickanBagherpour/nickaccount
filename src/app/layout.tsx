@@ -6,6 +6,7 @@ import { Inter } from 'next/font/google';
 import { auth } from '@/auth';
 import { APP_NAME } from '@/constants/config';
 import { ConfigProvider } from '@/providers/config-provider';
+import QueryProvider from '@/providers/react-query-provider';
 
 import '../styles/globals.css';
 
@@ -26,11 +27,13 @@ export default async function RootLayout({
 
   return (
     <html lang='en' className={isDarkMode ? 'dark' : ''}>
-      <SessionProvider session={session}>
-        <ConfigProvider>
-          <body className={inter.className}>{children}</body>
-        </ConfigProvider>
-      </SessionProvider>
+      <body className={inter.className}>
+        <SessionProvider session={session}>
+          <QueryProvider>
+            <ConfigProvider>{children}</ConfigProvider>
+          </QueryProvider>
+        </SessionProvider>
+      </body>
     </html>
   );
 }
