@@ -7,16 +7,12 @@ import { Table } from '@/ui-kit';
 
 type Props = {
   data?: TransactionWithCategory[];
+  loading: boolean;
 };
 
-export default function TransactionTable({ data }: Props) {
+export default function TransactionTable({ data, loading }: Props) {
+  
   const columns = [
-    {
-      title: 'User',
-      dataIndex: 'userId',
-      key: 'userId',
-      align: 'left',
-    },
     {
       title: 'Amount',
       dataIndex: 'amount',
@@ -37,15 +33,20 @@ export default function TransactionTable({ data }: Props) {
 
   const mobileColumns = [
     {
-      title: 'User',
-      dataIndex: 'userId',
-      key: 'userId',
-    },
-    {
       title: 'Amount',
       dataIndex: 'amount',
       key: 'amount',
       render: (amount: number) => `$${amount.toFixed(2)}`,
+    },
+    {
+      title: 'Category',
+      dataIndex: 'category',
+      key: 'category',
+    },
+    {
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
   ];
 
@@ -58,7 +59,7 @@ export default function TransactionTable({ data }: Props) {
       bordered
       sortable
       fullScreen
-      loading={false}
+      loading={loading}
     />
   );
 }

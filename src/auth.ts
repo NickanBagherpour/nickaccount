@@ -5,7 +5,6 @@ import { JWT } from "next-auth/jwt";
 
 import { fetchApi } from './utils/api-client';
 import { User} from './types';
-import { decodeToken } from './utils/jwt-util';
 
 declare module 'next-auth' {
   interface User {

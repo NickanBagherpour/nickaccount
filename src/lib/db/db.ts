@@ -6,6 +6,7 @@ import { User } from '@/types/user.type';
 import { Category } from '@/types/category.type';
 import { Transaction } from '@/types/transaction.type';
 import { mockCategories } from '@/mocks/categories.mock';
+import { isEmptyObject } from '@/utils/helper';
 
 // Define a type for database structure
 type DbSchema = {
@@ -32,7 +33,7 @@ const db = global.db || new Low(adapter, defaultData);
 // Initialize and write default data if necessary
 async function initDb() {
   await db.read();
-  if (!db.data) {
+  if (isEmptyObject(db.data)) {
     db.data = defaultData;
     await db.write();
   } else if (!db.data?.categories || db.data?.categories?.length === 0) {

@@ -1,6 +1,6 @@
 export interface Transaction {
   id: string;
-  userId: string;
+  userId?: string;
   amount: number;
   categoryId?: string;
   description?: string;
