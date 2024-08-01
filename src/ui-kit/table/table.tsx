@@ -145,7 +145,7 @@ export const Table: React.FC<TableProps> = ({
           </tbody>
         </table>
       </div>
-      {pagination && (
+      {pagination && dataSource?.length > 0 && (
         <div className='mt-4'>
           <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} align='left' />
         </div>

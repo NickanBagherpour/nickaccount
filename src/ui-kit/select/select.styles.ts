@@ -80,5 +80,6 @@ export const getIconStyles = (size: SelectSize) => {
   return `
     ${selectStyles.icon.base}
     ${selectStyles.icon.size[size]}
+    text-gray-400 dark:text-gray-500
   `;
 };

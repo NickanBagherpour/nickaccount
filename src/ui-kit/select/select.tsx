@@ -1,55 +1,70 @@
 'use client';
 
-import React from 'react';
-import { SelectProps } from './select.types';
-import { getSelectStyles, getLabelStyles, getHelperTextStyles, getIconStyles } from './select.styles';
-import { classNames } from '@/utils/class-names';
+import React, { forwardRef } from 'react';
 
-export const Select: React.FC<SelectProps> = ({
-  label,
-  value,
-  onChange,
-  options,
-  size = 'medium',
-  variant = 'outlined',
-  error = false,
-  helperText,
-  fullWidth = false,
-  className = '',
-}) => {
-  return (
-    <div className={classNames('relative', fullWidth ? 'w-full' : '', className)}>
-      <label className={getLabelStyles(size, error)}>
-        {label}
-      </label>
-      <div className="relative">
-        <select
-          value={value}
-          onChange={(e) => onChange(e.target.value)}
-          className={getSelectStyles(size, variant, error, fullWidth)}
-        >
-          <option value="">Select an option</option>
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.label}
-            </option>
-          ))}
-        </select>
-        <svg
-          className={getIconStyles(size)}
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-        </svg>
+import { FaSpinner, FaChevronDown } from 'react-icons/fa';
+
+import { SelectProps } from './select.types';
+import { getSelectStyles, getLabelStyles, getHelperTextStyles, getIconStyles, selectStyles } from './select.styles';
+
+export const Select = forwardRef<HTMLSelectElement, SelectProps>(
+  (
+    {
+      label,
+      id,
+      helperText,
+      error,
+      size = 'medium',
+      variant = 'outlined',
+      fullWidth = false,
+      className = '',
+      disabled = false,
+      loading = false,
+      options,
+      ...props
+    },
+    ref
+  ) => {
+    const hasError = !!error;
+    const selectClasses = getSelectStyles(size, variant, hasError, fullWidth);
+    const labelClasses = getLabelStyles(size, hasError);
+    const helperTextClasses = getHelperTextStyles(hasError);
+    const iconClasses = getIconStyles(size);
+
+    return (
+      <div className={`relative ${fullWidth ? 'w-full' : ''}`}>
+        {label && (
+          <label htmlFor={id ?? props?.name} className={`${labelClasses} dark:text-gray-300`}>
+            {label}
+          </label>
+        )}
+        <div className="relative">
+          <select
+            ref={ref}
+            id={id ?? props?.name}
+            className={`${selectClasses} ${className} dark:bg-gray-800 dark:text-white dark:border-gray-600 pr-10`}
+            disabled={disabled || loading}
+            {...props}
+          >
+            <option value="">{loading ? 'Loading...' : 'Select an option'}</option>
+            {!loading && options.map((option) => (
+              <option key={option.value} value={option.value}>
+                {option.label}
+              </option>
+            ))}
+          </select>
+          <div className={`${iconClasses} flex items-center justify-center`}>
+            {loading ? (
+              <FaSpinner className="animate-spin" />
+            ) : (
+              <FaChevronDown />
+            )}
+          </div>
+        </div>
+        {(helperText || error) && <p className={`${helperTextClasses} dark:text-gray-400`}>{error || helperText}</p>}
       </div>
-      {helperText && (
-        <p className={getHelperTextStyles(error)}>
-          {helperText}
-        </p>
-      )}
-    </div>
-  );
-};
+    );
+  }
+);
+
+Select.displayName = 'Select';

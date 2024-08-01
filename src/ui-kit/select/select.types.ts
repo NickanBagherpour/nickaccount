@@ -1,3 +1,5 @@
+import { SelectHTMLAttributes, ReactNode } from 'react';
+
 export type Option = {
   value: string;
   label: string;
@@ -6,15 +8,13 @@ export type Option = {
 export type SelectSize = 'small' | 'medium' | 'large';
 export type SelectVariant = 'outlined' | 'filled' | 'standard';
 
-export type SelectProps = {
-  label: string;
-  value: string;
-  onChange: (value: string) => void;
-  options: Option[];
+export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
+  label?: string;
+  helperText?: string;
+  error?: string;
   size?: SelectSize;
   variant?: SelectVariant;
-  error?: boolean;
-  helperText?: string;
   fullWidth?: boolean;
-  className?: string;
-};
+  options: Option[];
+  loading?: boolean;
+}
