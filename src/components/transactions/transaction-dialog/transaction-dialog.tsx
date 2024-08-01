@@ -22,7 +22,6 @@ export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) 
 
   useEffect(() => {
     if (state.success && state.data) {
-      console.log("Transaction added:", state.data);
       onSubmit(state.data);
       onClose();
       // Reset form fields

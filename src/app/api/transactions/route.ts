@@ -5,8 +5,6 @@ import { AuthenticatedRequest, withApiAuth } from '@/utils/auth-middleware';
 async function handler(request: AuthenticatedRequest) {
   try {
 
-    console.log("✌️ ~ handler ~ request:", request)
-
     const { userId } = request.user;
 
     const transactions = await dbUtils.getTransactionsByUserId(userId);

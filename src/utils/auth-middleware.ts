@@ -12,9 +12,7 @@ export interface AuthenticatedRequest extends Request {
 export function withApiAuth(handler: (request: AuthenticatedRequest) => Promise<NextResponse>) {
   return async (request: Request) => {
     const authHeader = request.headers.get('Authorization');
-
-    console.log("🚀 ~ file: auth-middleware.ts ~ line 15 ~ request.headers:", authHeader);
-
+    
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json({ error: 'No token provided' }, { status: 401 });
     }

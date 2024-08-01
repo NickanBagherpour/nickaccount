@@ -16,9 +16,7 @@ export default function TransactionsPage() {
 
   const [balance, setBalance] = useState<number>(0);
   const [loading, setLoading] = useState<boolean>(true);
-  
-  console.log("🚀 ~ TransactionsPage ~ transactions:", transactions)
-  
+    
   useEffect(() => {
     refreshData();
   }, []);
@@ -26,8 +24,6 @@ export default function TransactionsPage() {
   
   const fetchTransactions = async () => {
     try {
-    console.log("🚀 ~ TransactionsPage ~ fetchTransactions")
-
       const data = await fetchApi({ path: '/api/transactions' });
       setTransactions(data);
     } catch (error) {

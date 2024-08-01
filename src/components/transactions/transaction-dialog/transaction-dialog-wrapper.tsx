@@ -21,8 +21,6 @@ export default function TransactionDialogWrapper({ onTransactionAdded }: Props) 
         isOpen={isDialogOpen}
         onClose={() => setIsDialogOpen(false)}
         onSubmit={(data) => {
-          console.log('🚀 ~ TransactionDialogWrapper ~ data:', data);
-
           // You can add any client-side logic here if needed
           setIsDialogOpen(false);
           onTransactionAdded();
