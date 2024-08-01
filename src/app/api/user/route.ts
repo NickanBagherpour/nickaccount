@@ -7,6 +7,11 @@ async function handler(request: AuthenticatedRequest) {
   try {
     const { email } = request.user;
 
+
+    console.log("🚀😒 ~ handler ~ request:", request)
+
+    
+
     const user = await dbUtils.findUserByEmail(email);
 
     if (!user) {
