@@ -1,4 +1,4 @@
-import { db } from '@/lib';
+import { db } from '@/lib/server';
 import { User } from '@/types/user.type';
 import { Nullable } from '@/types/utility.type';
 import { uuid } from './helper';

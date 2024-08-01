@@ -57,24 +57,17 @@
   "transactions": [
     {
       "userId": "d581cd90-4d72-4863-b176-32d61e0bb657",
-      "amount": 10,
-      "categoryId": "2",
-      "description": "123",
-      "id": "f308b29a-3de5-4360-a5d5-92738f9e21c9"
+      "amount": 25,
+      "categoryId": "1",
+      "description": "salad",
+      "id": "2642cb0a-394e-47bf-931f-0787781ee6d0"
     },
     {
       "userId": "d581cd90-4d72-4863-b176-32d61e0bb657",
-      "amount": 20,
-      "categoryId": "2",
-      "description": "ghhjkkjhj",
-      "id": "008d8d99-88a7-4d47-bc7d-f884c39c49b6"
-    },
-    {
-      "userId": "d581cd90-4d72-4863-b176-32d61e0bb657",
-      "amount": 250,
-      "categoryId": "4",
-      "description": "shiraz",
-      "id": "05d1020c-ae13-4337-96fe-3b0afc086170"
+      "amount": 30,
+      "categoryId": "3",
+      "description": "movie",
+      "id": "200570c0-0b0f-43e7-8503-a096839b0673"
     }
   ]
 }
