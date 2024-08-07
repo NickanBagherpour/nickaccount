@@ -5,7 +5,7 @@ export default function Report2Page() {
   const report = mockReports[1];
 
   return (
-    <div className="bg-white dark:bg-gray-800 shadow rounded-lg p-6">
+    <div >
       <h1 className="text-3xl font-semibold text-gray-800 dark:text-white mb-4">{report.title}</h1>
       {report.description && (
         <p className="text-gray-600 dark:text-gray-300 mb-6">{report.description}</p>

@@ -1,5 +1,3 @@
-// input.styles.ts
-
 import { InputSize, InputVariant } from './input.types';
 
 export const inputStyles = {

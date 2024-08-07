@@ -1,10 +1,11 @@
 import { ReactNode, MouseEvent, ButtonHTMLAttributes } from 'react';
 
 export interface ButtonProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color'> {
-  children: ReactNode;
+  children?: ReactNode;
   variant?: 'contained' | 'outlined' | 'text' | 'link' | 'tuna';
   color?: 'primary' | 'secondary' | 'danger' | 'success';
   size?: 'small' | 'medium' | 'large';
+  shape?: 'default' | 'circle' | 'round';
   icon?: ReactNode;
   loading?: boolean;
   className?: string;

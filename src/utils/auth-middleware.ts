@@ -4,6 +4,7 @@ import { verifyToken } from '@/utils/jwt-util';
 export interface AuthenticatedRequest extends Request {
   user: {
     email: string;
+    userId: string;
     // Add other user properties as needed
   };
 }
@@ -11,7 +12,7 @@ export interface AuthenticatedRequest extends Request {
 export function withApiAuth(handler: (request: AuthenticatedRequest) => Promise<NextResponse>) {
   return async (request: Request) => {
     const authHeader = request.headers.get('Authorization');
-
+    
     if (!authHeader || !authHeader.startsWith('Bearer ')) {
       return NextResponse.json({ error: 'No token provided' }, { status: 401 });
     }
@@ -27,6 +28,7 @@ export function withApiAuth(handler: (request: AuthenticatedRequest) => Promise<
     const authenticatedRequest: AuthenticatedRequest = Object.assign(request, {
       user: {
         email: decodedToken.email,
+        userId: decodedToken.userId,
         // Add other user properties from decodedToken as needed
       },
     });

@@ -1,4 +1,3 @@
-// src/mocks/menu.mock.ts
 import { MenuItem } from '@/types/menu.type';
 import { ROUTES } from '@/constants/routes';
 // import { FaHome, FaChartBar, FaFileAlt } from 'react-icons/fa';
@@ -8,6 +7,10 @@ export const menuItems: MenuItem[] = [
     label: 'Dashboard',
     path: ROUTES.DASHBOARD,
     // icon: <FaHome />,
+  },
+  {
+    label: 'Transactions',
+    path: ROUTES.TRANSACTIONS,
   },
   {
     label: 'Report 1',

@@ -1,11 +1,24 @@
 export const buttonBaseStyles =
   'font-bold rounded focus:outline-none focus:ring-2 focus:ring-opacity-50 transition-colors duration-200';
 
-export const buttonSizeStyles = {
-  small: 'px-2 py-1 text-sm h-8',
-  medium: 'px-4 py-2 h-10',
-  large: 'px-6 py-3 text-lg h-12',
-};
+
+  export const buttonSizeStyles = {
+    small: {
+      default: 'px-2 py-1 text-sm h-8',
+      circle: 'w-8 h-8 text-sm',
+      round: 'px-3 py-1 text-sm h-8',
+    },
+    medium: {
+      default: 'px-4 py-2 h-10',
+      circle: 'w-10 h-10',
+      round: 'px-4 py-2 h-10',
+    },
+    large: {
+      default: 'px-6 py-3 text-lg h-12',
+      circle: 'w-12 h-12 text-lg',
+      round: 'px-6 py-3 text-lg h-12',
+    },
+  };
 
 export const buttonVariantStyles = {
   contained: 'dark:text-white text-white',
@@ -58,4 +71,10 @@ export const buttonDisabledStyles = {
   text: 'text-gray-400 cursor-not-allowed',
   link: 'text-gray-400 no-underline cursor-not-allowed',
   tuna: 'bg-gray-200 border-gray-300 text-gray-400 cursor-not-allowed',
+};
+
+export const buttonShapeStyles = {
+  default: 'rounded',
+  circle: 'rounded-full',
+  round: 'rounded-full',
 };

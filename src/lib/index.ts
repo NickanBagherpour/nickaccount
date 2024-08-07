@@ -1,1 +1,1 @@
-export * from './db/db'
+export { queryClient } from './query-client/query-client';

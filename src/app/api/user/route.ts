@@ -6,7 +6,7 @@ import { AuthenticatedRequest, withApiAuth } from '@/utils/auth-middleware';
 async function handler(request: AuthenticatedRequest) {
   try {
     const { email } = request.user;
-
+    
     const user = await dbUtils.findUserByEmail(email);
 
     if (!user) {

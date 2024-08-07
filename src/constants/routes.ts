@@ -10,4 +10,5 @@ export enum ROUTES {
   ANALYTICS = '/analytics',
   DOCUMENTATION = '/documentation',
   CONTACT = '/contact',
+  TRANSACTIONS = '/transactions',
 }

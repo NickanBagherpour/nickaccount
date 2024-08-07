@@ -29,3 +29,15 @@ export function uuid(): string {
     return v.toString(16);
   });
 }
+
+
+export function isEmptyObject(obj : Object) {
+  for (const prop in obj) {
+    if (Object.hasOwn(obj, prop)) {
+      return false;
+    }
+  }
+
+  return true;
+}
+
