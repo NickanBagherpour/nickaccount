@@ -1,10 +1,11 @@
 'use client';
 
 import React, { useState, useEffect } from 'react';
+
 import { Modal, Input, Button, Select } from '@/ui-kit';
+
 import { mockCategories } from '@/mocks/categories.mock';
 import { useAddTransaction } from '@/_api/transactions';
-import { queryClient } from '@/lib/query-client/query-client';
 
 type Props = {
   isOpen: boolean;
@@ -17,12 +18,8 @@ export default function TransactionDialog({ isOpen, onClose, onSubmit }: Props) 
   const [categoryId, setCategoryId] = useState('');
   const [description, setDescription] = useState('');
 
-  const { submit, isLoading } = useAddTransaction({
+  const { mutate: submit, isPending: isLoading } = useAddTransaction({
     onSuccess: () => {
-
-      queryClient.invalidateQueries({ queryKey: ['transactions'] });
-      queryClient.invalidateQueries({ queryKey: ['balance'] });
-      
       resetForm();
       onSubmit();
       onClose();

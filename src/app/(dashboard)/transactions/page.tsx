@@ -12,12 +12,12 @@ export default function TransactionsPage() {
   const { data: balanceData, error: balanceError, isLoading: balanceLoading } = useBalance();
 
 
-  const loading = transactionsLoading || balanceLoading;
+  const isLoading = transactionsLoading || balanceLoading;
   const error = transactionsError || balanceError;
   const balance = balanceData?.balance || 0;
 
 
- if (loading) return <div>Loading...</div>;
+ if (isLoading) return <div>Loading...</div>;
   if (error) return <div>An error occurred: {error.message}</div>;
 
 
@@ -36,7 +36,7 @@ export default function TransactionsPage() {
       }} />
     </Box>
 
-    <TransactionTable data={transactions} loading={loading} />
+    <TransactionTable data={transactions} loading={isLoading} />
   </Box>
   );
 }
